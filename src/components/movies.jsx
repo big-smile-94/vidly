@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
 
-class Movie extends Component {
+class Movies extends Component {
   state = {
     movies: getMovies(),
   };
 
+  handleDelete = (id) => {
+    const updatedMovieList = this.state.movies.filter(
+      (movie) => movie._id !== id
+    );
+    this.setState({ movies: updatedMovieList });
+  };
+
   render() {
+    const { movies } = this.state;
+
+    if (!movies.length) return <>There are no movies in the database.</>;
+
     return (
       <>
-        <p>Showing {this.state.movies.length} movies in the database.</p>
+        <p>Showing {movies.length} movies in the database.</p>
         <table className="table">
           <thead>
             <tr>
@@ -21,8 +32,7 @@ class Movie extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((movie) => {
-              console.log('movie', movie);
+            {movies.map((movie) => {
               return (
                 <tr key={movie._id}>
                   <td>{movie.title}</td>
@@ -30,7 +40,12 @@ class Movie extends Component {
                   <td>{movie.numberInStock}</td>
                   <td>{movie.dailyRentalRate}</td>
                   <td>
-                    <button className="btn btn-danger btn-sm">Delete</button>
+                    <button
+                      onClick={() => this.handleDelete(movie._id)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
@@ -42,4 +57,4 @@ class Movie extends Component {
   }
 }
 
-export default Movie;
+export default Movies;
