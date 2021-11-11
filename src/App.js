@@ -1,9 +1,10 @@
 import './App.css';
+import Movie from './components/movie';
 
 function App() {
   return (
     <main className="container">
-      <h1>Hello World</h1>
+      <Movie />
     </main>
   );
 }
