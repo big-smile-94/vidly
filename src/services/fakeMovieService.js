@@ -15,7 +15,6 @@ const movies = [
     title: 'Die Hard',
     genre: { _id: '5b21ca3eeb7f6fbccd471818', name: 'Action' },
     numberInStock: 5,
-    liked: false,
     dailyRentalRate: 2.5,
   },
   {
@@ -23,7 +22,6 @@ const movies = [
     title: 'Get Out',
     genre: { _id: '5b21ca3eeb7f6fbccd471820', name: 'Thriller' },
     numberInStock: 8,
-    liked: true,
     dailyRentalRate: 3.5,
   },
   {
@@ -31,7 +29,6 @@ const movies = [
     title: 'Trip to Italy',
     genre: { _id: '5b21ca3eeb7f6fbccd471814', name: 'Comedy' },
     numberInStock: 7,
-    liked: false,
     dailyRentalRate: 3.5,
   },
   {
@@ -39,7 +36,6 @@ const movies = [
     title: 'Airplane',
     genre: { _id: '5b21ca3eeb7f6fbccd471814', name: 'Comedy' },
     numberInStock: 7,
-    liked: false,
     dailyRentalRate: 3.5,
   },
   {
