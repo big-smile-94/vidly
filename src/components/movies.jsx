@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
+import Pagination from './common/pagination';
+
 import Like from './common/like';
 class Movies extends Component {
   state = {
@@ -63,6 +65,7 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination />
       </>
     );
   }

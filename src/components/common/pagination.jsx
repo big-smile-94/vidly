@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+// Interface of Pagination component
+// Input - What data does this component needs ?
+// Events - What events will this component raise ?
+
 class Pagination extends Component {
   render() {
     return (
