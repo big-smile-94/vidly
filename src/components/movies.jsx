@@ -5,6 +5,7 @@ import { getGenres } from '../services/fakeGenreService';
 import Pagination from './common/pagination';
 import paginate from '../utils/paginate';
 import ListGroup from './common/listGroup';
+import { orderBy } from 'lodash';
 
 class Movies extends Component {
   state = {
@@ -13,12 +14,13 @@ class Movies extends Component {
     pageSize: 4,
     currentPage: 1,
     selectedGenre: {},
+    sortColumn: { path: 'title', order: 'asc' },
   };
 
   componentDidMount() {
     const genres = [
       {
-        _id: '5b21ca3eeb7f6fbccd471810',
+        _id: '',
         name: 'All Genres',
       },
       ...getGenres(),
@@ -53,25 +55,45 @@ class Movies extends Component {
     });
   };
 
+  handleSort = (path) => {
+    const sortColumn = { ...this.state.sortColumn };
+
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === 'asc' ? 'desc' : 'asc';
+    else {
+      sortColumn.path = path;
+      sortColumn.order = 'asc';
+    }
+
+    this.setState({ sortColumn });
+  };
+
   render() {
     const {
       pageSize,
       currentPage,
       selectedGenre,
+      sortColumn,
       genres,
       movies: allMovies,
     } = this.state;
 
-    const moviesByGenre =
+    const filteredByGenre =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
-    const count = moviesByGenre.length;
+    const count = filteredByGenre.length;
 
     if (!count) return <p>There are no movies in the database.</p>;
 
-    const movies = paginate(moviesByGenre, currentPage, pageSize);
+    const sortedMovies = orderBy(
+      filteredByGenre,
+      [sortColumn.path],
+      [sortColumn.order]
+    );
+
+    const movies = paginate(sortedMovies, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -88,6 +110,7 @@ class Movies extends Component {
             movies={movies}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
+            onSort={this.handleSort}
           />
           <Pagination
             itemsCount={count}
