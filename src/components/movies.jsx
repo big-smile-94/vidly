@@ -8,18 +8,26 @@ import ListGroup from './common/listGroup';
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    genres: [
+    movies: [],
+    genres: [],
+    pageSize: 4,
+    currentPage: 1,
+    selectedGenre: {},
+  };
+
+  componentDidMount() {
+    const genres = [
       {
-        _id: '5b21ca3eeb7f6fbccd471812',
+        id: '5b21ca3eeb7f6fbccd471810',
         name: 'All Genres',
       },
       ...getGenres(),
-    ],
-    pageSize: 4,
-    currentPage: 1,
-    currentGenre: 'All Genres',
-  };
+    ];
+    this.setState({
+      movies: getMovies(),
+      genres,
+    });
+  }
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -38,9 +46,9 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
-  handleGroupChange = (group) => {
+  handleGenreSelect = (group) => {
     this.setState({
-      currentGenre: group.name,
+      selectedGenre: group,
     });
   };
 
@@ -48,15 +56,15 @@ class Movies extends Component {
     const {
       pageSize,
       currentPage,
-      currentGenre,
+      selectedGenre,
       genres,
       movies: allMovies,
     } = this.state;
 
     const moviesByGenre =
-      currentGenre === 'All Genres'
-        ? allMovies
-        : allMovies.filter((m) => m.genre.name === currentGenre);
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
 
     const count = moviesByGenre.length;
 
@@ -69,8 +77,8 @@ class Movies extends Component {
         <div className="col-2">
           <ListGroup
             items={genres}
-            currentGroup={currentGenre}
-            onGroupChange={this.handleGroupChange}
+            selectedItem={selectedGenre}
+            onItemSelect={this.handleGenreSelect}
           />
         </div>
         <div className="col">
