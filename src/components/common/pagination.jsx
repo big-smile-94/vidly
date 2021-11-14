@@ -4,6 +4,8 @@ import React from 'react';
 // Input - What data does this component needs i.e itemsCount and PageSize
 // Events - What events will this component raise i.e. onPageChange?
 
+// This component only renders the buttons for pagination
+// the paginate function is the only which can be used to display data on each page
 const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
   // Generate an array from [1..n] from just an integer value pagesCount
