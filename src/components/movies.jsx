@@ -18,7 +18,7 @@ class Movies extends Component {
   componentDidMount() {
     const genres = [
       {
-        id: '5b21ca3eeb7f6fbccd471810',
+        _id: '5b21ca3eeb7f6fbccd471810',
         name: 'All Genres',
       },
       ...getGenres(),
@@ -49,6 +49,7 @@ class Movies extends Component {
   handleGenreSelect = (group) => {
     this.setState({
       selectedGenre: group,
+      currentPage: 1, // Have to reset currentPage to 1 on genre change because if we are on the 2nd or 3rd page on all genres and then click on action genre or any other we don't see any movies in the list and see there are 3 movies in the db it's because we look at the third page
     });
   };
 
