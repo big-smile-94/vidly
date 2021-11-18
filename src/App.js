@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Movies from './components/movies';
 import MovieForm from './components/movieForm';
-import NavBar from './components/common/navBarx';
+import NavBar from './components/common/navBar';
 import Customers from './components/customers';
 import Rentals from './components/rentals';
 import NotFound from './components/notFound';
