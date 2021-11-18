@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Movies from './components/movies';
-import Movie from './components/movie';
-import NavBar from './components/common/navbar';
+import MovieForm from './components/movieForm';
+import NavBar from './components/common/navBarx';
 import Customers from './components/customers';
 import Rentals from './components/rentals';
 import NotFound from './components/notFound';
@@ -15,8 +15,8 @@ function App() {
         <Routes>
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
+          <Route path="/movies/:id" index element={<MovieForm />} />
           <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:id" index element={<Movie />} />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="/" element={<Navigate to="/movies" />} />
           <Route path="*" element={<NotFound />} />

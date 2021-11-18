@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const Movie = () => {
+const MovieForm = () => {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -19,4 +19,4 @@ const Movie = () => {
   );
 };
 
-export default Movie;
+export default MovieForm;
