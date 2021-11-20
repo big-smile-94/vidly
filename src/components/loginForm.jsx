@@ -15,14 +15,12 @@ class LoginForm extends Component {
 
   validateProperty = (input) => {
     const { name, value } = input;
-    if (name === 'username') {
-      if (value.trim() === '') return 'Username is required.';
-      // ...more
-    }
-    if (name === 'password') {
-      if (value.trim() === '') return 'Password is required.';
-      // ...more
-    }
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+
+    const { error } = Joi.validate(obj, schema); // abortEarly should be false in this case!
+
+    return error ? error.details[0].message : null;
   };
 
   validate = () => {
