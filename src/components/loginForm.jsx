@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 
 class LoginForm extends Component {
-  username = React.createRef();
-
-  //   componentDidMount() {
-  //     this.username.current.focus();
-  //   }
+  state = {
+    account: { username: '', password: '' },
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // old way of accessing form data in vanilla javascript
-    // const username = document.getElementById('username').value;
-    // if you really have to work with the 'document'. you can use the ref
-    // 1. username = React.createRef(); 2.  <input ref={this.username}.../> 3. const u = this.username.current.value
-
     console.log('submited');
+  };
+
+  handleChange = (e) => {
+    const account = { ...this.state.account };
+    account.username = e.currentTarget.value;
+    this.setState({ account });
   };
 
   render() {
@@ -26,8 +25,8 @@ class LoginForm extends Component {
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
-              autoFocus
-              ref={this.username}
+              value={this.state.account.username}
+              onChange={this.handleChange}
               id="username"
               type="text"
               className="form-control"
@@ -45,3 +44,14 @@ class LoginForm extends Component {
 }
 
 export default LoginForm;
+
+// old way of accessing form data in vanilla javascript
+// const username = document.getElementById('username').value;
+
+// if you really have to work with the 'document'. you can use the ref
+// 1. username = React.createRef(); 2.  <input ref={this.username}.../> 3. const u = this.username.current.value
+
+// to auto focus on load
+//   componentDidMount() {
+//     this.username.current.focus();
+//   }
