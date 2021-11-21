@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { orderBy } from 'lodash';
 import MoviesTable from './moviesTable';
 import { getMovies, deleteMovie } from '../services/fakeMovieService';
 import { getGenres } from '../services/fakeGenreService';
 import Pagination from './common/pagination';
 import paginate from '../utils/paginate';
 import ListGroup from './common/listGroup';
-import { orderBy } from 'lodash';
-import { Link } from 'react-router-dom';
+import SearchBox from './common/searchBox';
 
 class Movies extends Component {
   state = {
@@ -14,9 +15,9 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: '',
     selectedGenre: {},
     sortColumn: { path: 'title', order: 'asc' },
-    search: '',
   };
 
   componentDidMount() {
@@ -51,17 +52,16 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
-  handleGenreSelect = (group) => {
+  handleGenreSelect = (genre) => {
     this.setState({
-      selectedGenre: group,
+      selectedGenre: genre,
       currentPage: 1, // Have to reset currentPage to 1 on genre change because if we are on the 2nd or 3rd page on all genres and then click on action genre or any other we don't see any movies in the list and see there are 3 movies in the db it's because we look at the third page
-      search: '',
+      searchQuery: '',
     });
   };
 
-  handleSearch = (event) => {
-    const { currentTarget: input } = event;
-    this.setState({ search: input.value, selectedGenre: {} });
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: {}, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -74,33 +74,36 @@ class Movies extends Component {
       currentPage,
       selectedGenre,
       sortColumn,
+      searchQuery,
       movies: allMovies,
-      search,
     } = this.state;
-    const filteredByGenre =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
 
-    const filtered = filteredByGenre.filter((m) =>
-      m.title.toLowerCase().includes(search.toLowerCase())
-    );
+    let filtered = allMovies;
 
-    const sortedMovies = orderBy(
-      filtered,
-      [sortColumn.path],
-      [sortColumn.order]
-    );
+    if (searchQuery)
+      filtered = allMovies.filter((m) =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
 
-    const movies = paginate(sortedMovies, currentPage, pageSize);
+    const sorted = orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return { totalCount: filtered.length, data: movies };
   };
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, selectedGenre, sortColumn, genres, search } =
-      this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      sortColumn,
+      genres,
+      searchQuery,
+    } = this.state;
 
     if (!count) return <p>There are no movies in the database.</p>;
 
@@ -124,14 +127,7 @@ class Movies extends Component {
             New Movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>
-          <input
-            name="search"
-            id="search"
-            placeholder="Search..."
-            value={search}
-            onChange={this.handleSearch}
-            className="form-control mb-3"
-          />
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
