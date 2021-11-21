@@ -16,6 +16,7 @@ class Movies extends Component {
     currentPage: 1,
     selectedGenre: {},
     sortColumn: { path: 'title', order: 'asc' },
+    search: '',
   };
 
   componentDidMount() {
@@ -54,7 +55,13 @@ class Movies extends Component {
     this.setState({
       selectedGenre: group,
       currentPage: 1, // Have to reset currentPage to 1 on genre change because if we are on the 2nd or 3rd page on all genres and then click on action genre or any other we don't see any movies in the list and see there are 3 movies in the db it's because we look at the third page
+      search: '',
     });
+  };
+
+  handleSearch = (event) => {
+    const { currentTarget: input } = event;
+    this.setState({ search: input.value, selectedGenre: {} });
   };
 
   handleSort = (sortColumn) => {
@@ -68,26 +75,31 @@ class Movies extends Component {
       selectedGenre,
       sortColumn,
       movies: allMovies,
+      search,
     } = this.state;
     const filteredByGenre =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
 
+    const filtered = filteredByGenre.filter((m) =>
+      m.title.toLowerCase().includes(search.toLowerCase())
+    );
+
     const sortedMovies = orderBy(
-      filteredByGenre,
+      filtered,
       [sortColumn.path],
       [sortColumn.order]
     );
 
     const movies = paginate(sortedMovies, currentPage, pageSize);
 
-    return { totalCount: filteredByGenre.length, data: movies };
+    return { totalCount: filtered.length, data: movies };
   };
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, selectedGenre, sortColumn, genres } =
+    const { pageSize, currentPage, selectedGenre, sortColumn, genres, search } =
       this.state;
 
     if (!count) return <p>There are no movies in the database.</p>;
@@ -112,6 +124,14 @@ class Movies extends Component {
             New Movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>
+          <input
+            name="search"
+            id="search"
+            placeholder="Search..."
+            value={search}
+            onChange={this.handleSearch}
+            className="form-control mb-3"
+          />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
