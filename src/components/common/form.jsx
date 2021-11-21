@@ -77,6 +77,35 @@ class Form extends Component {
       />
     );
   }
+
+  renderSelect() {
+    return (
+      <div className="form-group">
+        <label htmlFor="genreId">Genre</label>
+        <select
+          name="genreId"
+          id="genreId"
+          onChange={this.handleChange}
+          className="form-select"
+        >
+          {this.state.genres.map((genre, index) => (
+            <option
+              key={`${genre._id}-${index}`}
+              value={genre._id}
+              selected={genre.selected}
+            >
+              {genre.name}
+            </option>
+          ))}
+        </select>
+        {this.state.errors['genreId'] && (
+          <div className="alert alert-danger">
+            {this.state.errors['genreId']}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 export default Form;
