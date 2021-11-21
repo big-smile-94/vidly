@@ -33,7 +33,7 @@ class Movies extends Component {
   }
 
   handleDelete = (movie) => {
-    deleteMovie(movie._id)
+    deleteMovie(movie._id);
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
@@ -104,7 +104,11 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <Link to="/movies/new" className="btn btn-primary btn-m">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
             New Movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>

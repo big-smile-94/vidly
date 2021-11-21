@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import Input from './input';
+import Select from './Select';
 
 class Form extends Component {
   state = {
@@ -78,32 +79,17 @@ class Form extends Component {
     );
   }
 
-  renderSelect() {
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
     return (
-      <div className="form-group">
-        <label htmlFor="genreId">Genre</label>
-        <select
-          name="genreId"
-          id="genreId"
-          onChange={this.handleChange}
-          className="form-select"
-        >
-          {this.state.genres.map((genre, index) => (
-            <option
-              key={`${genre._id}-${index}`}
-              value={genre._id}
-              selected={genre.selected}
-            >
-              {genre.name}
-            </option>
-          ))}
-        </select>
-        {this.state.errors['genreId'] && (
-          <div className="alert alert-danger">
-            {this.state.errors['genreId']}
-          </div>
-        )}
-      </div>
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
     );
   }
 }
