@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MoviesTable from './moviesTable';
-import { getMovies } from '../services/fakeMovieService';
+import { getMovies, deleteMovie } from '../services/fakeMovieService';
 import { getGenres } from '../services/fakeGenreService';
 import Pagination from './common/pagination';
 import paginate from '../utils/paginate';
@@ -33,6 +33,7 @@ class Movies extends Component {
   }
 
   handleDelete = (movie) => {
+    deleteMovie(movie._id)
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
