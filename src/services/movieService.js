@@ -14,10 +14,14 @@ export async function getMovies() {
 }
 
 export async function saveMovie(movie) {
-  const { data } = await http.post(apiEndpoint, {
-    movie,
-  });
+  if (movie._id) {
+    const body = { ...movie };
+    delete body._id;
+    const { data } = await http.put(apiEndpoint + '/' + movie._id, body);
+    return data;
+  }
 
+  const { data } = await http.post(apiEndpoint, movie);
   return data;
 }
 
