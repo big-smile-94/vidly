@@ -1,7 +1,7 @@
 import http from './httpService';
-import config from '../config.json';
+import { vidlyApiUrl } from '../config.json';
 
 export async function getGenres() {
-  const { data: genres } = await http.get(`${config.vidlyApiBaseUri}/genres`);
+  const { data: genres } = await http.get(`${vidlyApiUrl}/genres`);
   return genres;
 }

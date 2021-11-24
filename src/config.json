@@ -1,3 +1,3 @@
 {
-    "vidlyApiBaseUri": "http://localhost:3900/api"
+    "vidlyApiUrl": "http://localhost:3900/api"
 }
