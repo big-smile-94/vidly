@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { orderBy } from 'lodash';
 import MoviesTable from './moviesTable';
 import { getMovies, deleteMovie } from '../services/movieService';
@@ -35,10 +36,23 @@ class Movies extends Component {
     });
   }
 
+  // replaced optimistic update with pessimistic update
+  // we now delete the movie first then check if the movie was not
+  // deleted then we revert the changes back to the orignial state!
+  // this is done to make the ui update faster so we don't wait for the response
   handleDelete = async (movie) => {
-    await deleteMovie(movie._id);
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+    const orignialMovies = this.state.movies;
+    const movies = orignialMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        toast.error('This movie has already been deleted.');
+
+      this.setState({ movies: orignialMovies });
+    }
   };
 
   handleLike = (movie) => {
