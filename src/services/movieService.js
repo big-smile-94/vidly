@@ -13,7 +13,13 @@ export async function getMovies() {
   return movies;
 }
 
-export async function saveMovie(movie) {}
+export async function saveMovie(movie) {
+  const { data } = await http.post(apiEndpoint, {
+    movie,
+  });
+
+  return data;
+}
 
 export async function deleteMovie(id) {
   const { data: movie } = await http.delete(apiEndpoint + '/' + id);
