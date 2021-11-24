@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { orderBy } from 'lodash';
 import MoviesTable from './moviesTable';
-import { getMovies, deleteMovie } from '../services/fakeMovieService';
-import { getGenres } from '../services/fakeGenreService';
+import { getMovies, deleteMovie } from '../services/movieService';
+import { getGenres } from '../services/genreService';
 import Pagination from './common/pagination';
 import paginate from '../utils/paginate';
 import ListGroup from './common/listGroup';
@@ -20,22 +20,23 @@ class Movies extends Component {
     sortColumn: { path: 'title', order: 'asc' },
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const genres = [
       {
         _id: '',
         name: 'All Genres',
       },
-      ...getGenres(),
+      ...(await getGenres()),
     ];
+
     this.setState({
-      movies: getMovies(),
+      movies: await getMovies(),
       genres,
     });
   }
 
-  handleDelete = (movie) => {
-    deleteMovie(movie._id);
+  handleDelete = async (movie) => {
+    await deleteMovie(movie._id);
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
