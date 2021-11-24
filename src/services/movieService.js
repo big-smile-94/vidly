@@ -1,15 +1,22 @@
 import http from './httpService';
 import { vidlyApiUrl } from '../config.json';
 
-const apiEndpoint = vidlyApiUrl + '/movies/';
+const apiEndpoint = vidlyApiUrl + '/movies';
+
+export async function getMovie(id) {
+  const { data: movie } = await http.get(apiEndpoint + '/' + id);
+  return movie;
+}
 
 export async function getMovies() {
   const { data: movies } = await http.get(apiEndpoint);
   return movies;
 }
 
-export async function deleteMovie(movieId) {
-  const { data: movie } = await http.delete(apiEndpoint + movieId);
+export async function saveMovie(movie) {}
+
+export async function deleteMovie(id) {
+  const { data: movie } = await http.delete(apiEndpoint + '/' + id);
 
   return movie;
 }
