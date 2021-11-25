@@ -19,7 +19,8 @@ class LoginForm extends Form {
       const { data: jwt } = await login(username, password);
       localStorage.setItem('token', jwt);
 
-      this.props.history.push('/');
+      window.location = '/'; // this is done because we had an issue with the login feature! after logging in it would not show the user their name and login button. After refresh it would show
+      // this.props.history.push('/');
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

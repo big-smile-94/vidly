@@ -20,6 +20,8 @@ class RegisterForm extends Form {
       const response = await userService.register(this.state.data);
       localStorage.setItem('token', response.headers['x-auth-token']);
 
+      window.location = '/'; // this is done because we had an issue with the login feature! after logging in it would not show the user their name and login button. After refresh it would show!
+      // this.props.history.push('/');
       this.props.history.push('/');
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
