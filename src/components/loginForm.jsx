@@ -1,5 +1,6 @@
 import React from 'react';
 import Joi from 'joi-browser';
+import { Redirect } from 'react-router';
 import Form from './common/form';
 import auth from './../services/authService';
 class LoginForm extends Form {
@@ -18,7 +19,8 @@ class LoginForm extends Form {
       const { username, password } = this.state.data;
       await auth.login(username, password);
 
-      window.location = '/'; // this is done because we had an issue with the login feature! after logging in it would not show the user their name and login button. After refresh it would show
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : '/'; // this is done because we had an issue with the login feature! after logging in it would not show the user their name and login button. After refresh it would show
       // this.props.history.push('/');
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -31,6 +33,7 @@ class LoginForm extends Form {
   };
 
   render() {
+    if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <h1>Login</h1>
