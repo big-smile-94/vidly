@@ -5,6 +5,8 @@ import { vidlyApiUrl } from '../config.json';
 const apiEndpoint = vidlyApiUrl + '/auth';
 const tokenKey = 'token';
 
+http.setJwt(getJwt());
+
 export async function login(email, password) {
   const { data: jwt } = await http.post(apiEndpoint, { email, password });
   localStorage.setItem(tokenKey, jwt);
