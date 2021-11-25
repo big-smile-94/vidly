@@ -1,7 +1,7 @@
 import React from 'react';
 import Joi from 'joi-browser';
 import Form from './common/form';
-import { login } from './../services/authService';
+import auth from './../services/authService';
 class LoginForm extends Form {
   state = {
     data: { username: '', password: '' },
@@ -16,8 +16,7 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { username, password } = this.state.data;
-      const { data: jwt } = await login(username, password);
-      localStorage.setItem('token', jwt);
+      await auth.login(username, password);
 
       window.location = '/'; // this is done because we had an issue with the login feature! after logging in it would not show the user their name and login button. After refresh it would show
       // this.props.history.push('/');
