@@ -14,6 +14,9 @@ https://git.heroku.com/rocky-hamlet-09782.git
 
 APP available at: https://rocky-hamlet-09782.herokuapp.com/
 
+mongodb at: https://cloud.mongodb.com/
+api at: https://dashboard.heroku.com/
+
 ## Testing Production build 
 You can run `yarn run build` which will build an optimised production build and it can be tested by running `serve -s build`.
 
