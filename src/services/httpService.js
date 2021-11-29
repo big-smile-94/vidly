@@ -10,6 +10,8 @@ const httpService = {
   setJwt,
 };
 
+axios.defaults.baseURL = process.env.REACT_APP_VIDLY_API_URL;
+
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
     error.response &&

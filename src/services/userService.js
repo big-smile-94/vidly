@@ -1,7 +1,6 @@
 import http from './httpService';
-import { vidlyApiUrl } from '../config.json';
 
-const apiEndpoint = vidlyApiUrl + '/users';
+const apiEndpoint = '/users';
 
 export async function register(user) {
   return http.post(apiEndpoint, {
