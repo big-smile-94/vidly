@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import 'bootstrap/js/src/collapse.js';
 
 const NavBar = (props) => {
   const { user } = props;
-
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -13,45 +13,60 @@ const NavBar = (props) => {
         className="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <div className="navbar-nav">
-          <NavLink className="nav-item nav-link" to="/movies">
-            Movies
-          </NavLink>
-          <NavLink className="nav-item nav-link" to="/customers">
-            Customers
-          </NavLink>
-          <NavLink className="nav-item nav-link" to="/rentals">
-            Rentals
-          </NavLink>
+
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item active">
+            <NavLink className="nav-item nav-link" to="/movies">
+              Movies
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-item nav-link" to="/customers">
+              Customers
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-item nav-link" to="/rentals">
+              Rentals
+            </NavLink>
+          </li>
           {!user && (
             <>
-              <NavLink className="nav-item nav-link" to="/login">
-                Login
-              </NavLink>
-              <NavLink className="nav-item nav-link" to="/register">
-                Register
-              </NavLink>
+              <li>
+                <NavLink className="nav-item nav-link" to="/login">
+                  Login
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="nav-item nav-link" to="/register">
+                  Register
+                </NavLink>
+              </li>
             </>
           )}
           {user && (
             <>
-              <NavLink className="nav-item nav-link" to="/profile">
-                {user.name}
-              </NavLink>
-              <NavLink className="nav-item nav-link" to="/logout">
-                Logout
-              </NavLink>
+              <li>
+                <NavLink className="nav-item nav-link" to="/profile">
+                  {user.name}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className="nav-item nav-link" to="/logout">
+                  Logout
+                </NavLink>
+              </li>
             </>
           )}
-        </div>
+        </ul>
       </div>
     </nav>
   );
