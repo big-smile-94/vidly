@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
-## Heroku 
+## Heroku  
 
 The following page has Quick Start commands for you to push this repo to heroku
 https://github.com/mars/create-react-app-buildpack#user-content-quick-start
