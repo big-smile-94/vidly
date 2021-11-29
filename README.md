@@ -2,6 +2,34 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+## Heroku 
+
+The following page has Quick Start commands for you to push this repo to heroku
+https://github.com/mars/create-react-app-buildpack#user-content-quick-start
+
+`heroku create --buildpack mars/create-react-app`  name of the app rocky-hamlet-09782
+
+https://git.heroku.com/rocky-hamlet-09782.git
+
+APP available at: https://rocky-hamlet-09782.herokuapp.com/
+
+## Testing Production build 
+You can run `yarn run build` which will build an optimised production build and it can be tested by running `serve -s build`.
+
+Have to install the serve globally 
+
+`yarn global add serve`
+
+`serve -s build`
+
+
+# 
+#
+#
+#
+
+
 ## Available Scripts
 
 In the project directory, you can run:
